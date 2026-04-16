@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OXY_OS // MONACO CORE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/s-pro-v/Industrial_HUD_Framework@main/css/alert.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="oxy-grid-core">
+        <header class="sys-header">
+            <div class="brand">OXY_OS // EDITOR</div>
+            <div class="header-actions">
+                <button id="themeToggleBtn" type="button" class="sys-btn header-theme-btn header-icon-btn"
+                    title="Przelacz motyw (UI + Monaco)">
+                    <i class="fa-solid fa-circle-half-stroke header-icon-btn__i" aria-hidden="true"></i>
+                    <span class="header-icon-btn__text">MOTYW</span>
+                </button>
+                <button id="openSettingsBtn" type="button" class="sys-btn header-settings-btn header-icon-btn"
+                    title="Ustawienia edytora Monaco">
+                    <i class="fa-solid fa-sliders header-icon-btn__i" aria-hidden="true"></i>
+                    <span class="header-icon-btn__text">USTAWIENIA</span>
+                </button>
+
+                <div class="tech-mark">KERNEL v3.11</div>
+            </div>
+        </header>
+
+        <main class="sys-architecture">
+            <aside class="panel telemetry-panel">
+                <div class="bracket top-left"></div>
+                <div class="bracket bottom-right"></div>
+
+                <div class="data-label">SYS_STATE: ACTIVE</div>
+
+                <div class="vent-grille"></div>
+
+                <div class="data-label">MEMORY: ALLOCATED</div>
+
+                <button type="button" id="compileSeqBtn" class="sys-btn compile-btn panel-action-btn"
+                    title="Zloz dokument z HTML+CSS+JS i odswiez iframe (jak sekwencja kompilacji)">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i class="fa-solid fa-bolt"></i></span>
+                    <span class="panel-action-btn__text">COMPILE_SEQ</span>
+                </button>
+                <button type="button" id="dumpLogBtn" class="sys-btn secondary-btn panel-action-btn"
+                    title="Zrzut: statystyki buforow + kopia raportu do schowka (jesli przegladarka pozwala)">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i class="fa-solid fa-memory"></i></span>
+                    <span class="panel-action-btn__text">DUMP_LOG</span>
+                </button>
+
+                <div class="data-label">HTML PREVIEW</div>
+                <button type="button" id="previewFromEditorBtn" class="sys-btn preview-btn panel-action-btn"
+                    title="Odswiez podglad z aktualnych buforow Monaco (bez zmiany sekwencji w stopce)">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i class="fa-solid fa-globe"></i></span>
+                    <span class="panel-action-btn__text">PODGLAD IFRAME</span>
+                </button>
+                <button type="button" id="loadHtmlFileBtn" class="sys-btn secondary-btn panel-action-btn"
+                    title="Wczytuje plik do edytorow: tresc body (HTML), style (CSS), skrypty inline (JS), potem odswieza podglad">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i
+                            class="fa-solid fa-file-import"></i></span>
+                    <span class="panel-action-btn__text">WCZYTAJ .HTML</span>
+                </button>
+                <input type="file" id="htmlFileInput" accept=".html,.htm,text/html" hidden>
+                <button type="button" id="previewPanelToggleBtn"
+                    class="sys-btn secondary-btn panel-action-btn panel-toggle-btn"
+                    data-icon-when-visible="fa-eye-slash" data-icon-when-hidden="fa-eye"
+                    title="Ukryj lub pokaz panel podgladu">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i class="fa-solid fa-eye-slash"></i></span>
+                    <span class="panel-action-btn__text">UKRYJ PODGLAD</span>
+                </button>
+                <button type="button" id="editorPanelToggleBtn"
+                    class="sys-btn secondary-btn panel-action-btn panel-toggle-btn"
+                    data-icon-when-visible="fa-file-code" data-icon-when-hidden="fa-code"
+                    title="Ukryj edytor — pelny iframe">
+                    <span class="panel-action-btn__icon" aria-hidden="true"><i class="fa-solid fa-file-code"></i></span>
+                    <span class="panel-action-btn__text">UKRYJ EDYTOR</span>
+                </button>
+
+                <div class="zebra-stripe"></div>
+
+                <button type="button" id="previewFullscreenBtn" class="sys-btn secondary-btn panel-action-btn"
+                    title="Na calosc: edytor + iframe na cala szerokosc (ukrywa telemetrie)"><i
+                        class="fa-solid fa-expand" aria-hidden="true"></i></button>
+            </aside>
+
+            <section class="panel editor-container">
+                <div class="bracket top-left"></div>
+                <div class="bracket top-right"></div>
+                <div class="bracket bottom-left"></div>
+                <div class="bracket bottom-right"></div>
+
+                <div class="editor-top-bar">
+                    <div class="editor-tab-bar" role="tablist" aria-label="Zakladki edytora Monaco"
+                        title="Trzy edytory Monaco (HTML, CSS, JS). Podglad sklada dokument jak w Cyber Code.">
+                        <button type="button" class="editor-tab is-active" role="tab" aria-selected="true"
+                            aria-controls="editorPanelHtml" id="editorTabHtml" data-editor-tab="html">HTML</button>
+                        <button type="button" class="editor-tab" role="tab" aria-selected="false"
+                            aria-controls="editorPanelCss" id="editorTabCss" data-editor-tab="css">CSS</button>
+                        <button type="button" class="editor-tab" role="tab" aria-selected="false"
+                            aria-controls="editorPanelJs" id="editorTabJs" data-editor-tab="js">JS</button>
+                    </div>
+                    <div class="editor-top-meta">
+                        <span class="data-label">MONACO</span>
+                        <span id="bufferFormatLabel" class="data-label buffer-format-label">FORMAT: html</span>
+                        <button type="button" id="clearBuffersBtn" class="editor-clear-btn"
+                            title="Wyczyść wszystkie bufory (HTML, CSS, JS) — z potwierdzeniem">
+                            <i class="fa-solid fa-eraser" aria-hidden="true"></i>
+                            <span>CLEAR_BUFF</span>
+                        </button>
+                        <div class="crosshair"></div>
+                    </div>
+                </div>
+
+                <div class="editor-workspace">
+                    <div class="editor-tab-panel is-active" id="editorPanelHtml" role="tabpanel"
+                        aria-labelledby="editorTabHtml" data-editor-panel="html">
+                        <div class="editor-monaco-wrap">
+                            <div id="html-editor"></div>
+                        </div>
+                    </div>
+                    <div class="editor-tab-panel" id="editorPanelCss" role="tabpanel" aria-labelledby="editorTabCss"
+                        data-editor-panel="css" hidden>
+                        <div class="editor-monaco-wrap">
+                            <div id="css-editor"></div>
+                        </div>
+                    </div>
+                    <div class="editor-tab-panel" id="editorPanelJs" role="tabpanel" aria-labelledby="editorTabJs"
+                        data-editor-panel="js" hidden>
+                        <div class="editor-monaco-wrap">
+                            <div id="js-editor"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel preview-container" aria-label="Podglad HTML w iframe">
+                <div class="bracket top-left"></div>
+                <div class="bracket top-right"></div>
+                <div class="bracket bottom-left"></div>
+                <div class="bracket bottom-right"></div>
+                <div class="preview-hud">
+                    <span class="data-label">IFRAME // LIVE DOM</span>
+                    <span id="previewStatusLabel" class="data-label buffer-format-label">STATUS: idle</span>
+                    <div class="preview-hud-actions">
+
+                    </div>
+                </div>
+                <iframe id="htmlPreviewFrame" class="html-preview-frame" title="Podglad HTML (CSS/JS)"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
+            </section>
+        </main>
+
+        <!-- Gdy telemetria jest ukryta (tryb expanded): strefa przy lewej krawedzi — najechanie pokazuje przycisk -->
+        <div id="telemetryRevealDock" class="telemetry-reveal-dock" aria-hidden="true" hidden>
+            <button type="button" id="telemetryRevealBtn" class="telemetry-reveal-btn"
+                title="Przywroc panel telemetrii (kolumna akcji)" aria-label="Przywroc panel telemetrii">
+                <i class="fa-solid fa-angles-right telemetry-reveal-btn__icon" aria-hidden="true"></i>
+                <span class="telemetry-reveal-btn__hint" aria-hidden="true">SYS</span>
+            </button>
+        </div>
+
+        <footer class="sys-terminal">
+            <div class="bracket top-left"></div>
+            <div class="log-stream">EVENT_LOG: AWAITING COMPILER INPUT...</div>
+            <div class="tech-mark">SEQ_0x00A</div>
+        </footer>
+    </div>
+
+    <div id="settingsOverlay" class="settings-overlay" onclick="MonacoEditorSettings.closeSettings()"></div>
+    <aside id="settingsSidebar" class="settings-sidebar">
+        <div class="settings-sidebar-header">
+            <span>EDITOR SETTINGS</span>
+            <button type="button" class="settings-close-btn" onclick="MonacoEditorSettings.closeSettings()">X</button>
+        </div>
+        <div id="settingsSidebarBody" class="settings-sidebar-body"></div>
+    </aside>
+
+    <div id="clearBuffersModal" class="hud-alert-root" role="presentation" aria-hidden="true">
+        <div id="clearBuffersDialog" class="system-alert-modal" data-alert-type="critical" role="dialog"
+            aria-modal="true" aria-labelledby="clearBuffersMainTitle">
+            <div class="modal-content">
+                <div class="system-alert-header">
+                    <h2 class="system-alert-title">POTWIERDZENIE</h2>
+                    <button type="button" class="close-btn" id="clearBuffersCloseBtn"
+                        aria-label="Zamknij">&times;</button>
+                </div>
+                <div class="system-alert-body">
+                    <div class="system-alert-main-title" id="clearBuffersMainTitle">CLEAR_BUFFERS</div>
+                    <p class="confirm-message">
+                        Czy na pewno wyczyścić wszystkie bufory edytora (HTML, CSS, JS)? Operacji nie cofniesz; zostanie
+                        zapisany pusty projekt w pamięci przeglądarki.
+                    </p>
+                </div>
+                <div class="system-alert-footer">
+                    <button type="button" class="cancel-btn" id="clearBuffersCancelBtn">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i> ANULUJ
+                    </button>
+                    <button type="button" class="system-alert-btn system-alert-btn-primary" id="clearBuffersConfirmBtn">
+                        <i class="fa-solid fa-eraser" aria-hidden="true"></i> WYCZYŚĆ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-relevant="additions"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
